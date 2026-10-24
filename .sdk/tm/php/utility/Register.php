@@ -1,0 +1,72 @@
+<?php
+declare(strict_types=1);
+
+// RealOrFakeVillage SDK utility registration
+
+require_once __DIR__ . '/../core/UtilityType.php';
+require_once __DIR__ . '/Clean.php';
+require_once __DIR__ . '/Done.php';
+require_once __DIR__ . '/MakeError.php';
+require_once __DIR__ . '/FeatureAdd.php';
+require_once __DIR__ . '/FeatureHook.php';
+require_once __DIR__ . '/FeatureInit.php';
+require_once __DIR__ . '/Fetcher.php';
+require_once __DIR__ . '/MakeFetchDef.php';
+require_once __DIR__ . '/MakeContext.php';
+require_once __DIR__ . '/MakeOptions.php';
+require_once __DIR__ . '/MakeRequest.php';
+require_once __DIR__ . '/MakeResponse.php';
+require_once __DIR__ . '/MakeResult.php';
+require_once __DIR__ . '/MakePoint.php';
+require_once __DIR__ . '/MakeSpec.php';
+require_once __DIR__ . '/MakeUrl.php';
+require_once __DIR__ . '/Param.php';
+require_once __DIR__ . '/PrepareAuth.php';
+require_once __DIR__ . '/PrepareBody.php';
+require_once __DIR__ . '/Graphql.php';
+require_once __DIR__ . '/PrepareHeaders.php';
+require_once __DIR__ . '/PrepareMethod.php';
+require_once __DIR__ . '/PrepareParams.php';
+require_once __DIR__ . '/PreparePath.php';
+require_once __DIR__ . '/PrepareQuery.php';
+require_once __DIR__ . '/ResultBasic.php';
+require_once __DIR__ . '/ResultBody.php';
+require_once __DIR__ . '/ResultHeaders.php';
+require_once __DIR__ . '/TransformRequest.php';
+require_once __DIR__ . '/TransformResponse.php';
+
+RealOrFakeVillageUtility::setRegistrar(function (RealOrFakeVillageUtility $u): void {
+    $u->clean = [RealOrFakeVillageClean::class, 'call'];
+    $u->clean_add = [RealOrFakeVillageClean::class, 'add'];
+    $u->clean_explain = [RealOrFakeVillageDone::class, 'clean_explain'];
+    $u->done = [RealOrFakeVillageDone::class, 'call'];
+    $u->make_error = [RealOrFakeVillageMakeError::class, 'call'];
+    $u->feature_add = [RealOrFakeVillageFeatureAdd::class, 'call'];
+    $u->feature_hook = [RealOrFakeVillageFeatureHook::class, 'call'];
+    $u->feature_init = [RealOrFakeVillageFeatureInit::class, 'call'];
+    $u->fetcher = [RealOrFakeVillageFetcher::class, 'call'];
+    $u->make_fetch_def = [RealOrFakeVillageMakeFetchDef::class, 'call'];
+    $u->make_context = [RealOrFakeVillageMakeContext::class, 'call'];
+    $u->make_options = [RealOrFakeVillageMakeOptions::class, 'call'];
+    $u->make_request = [RealOrFakeVillageMakeRequest::class, 'call'];
+    $u->make_response = [RealOrFakeVillageMakeResponse::class, 'call'];
+    $u->make_result = [RealOrFakeVillageMakeResult::class, 'call'];
+    $u->make_point = [RealOrFakeVillageMakePoint::class, 'call'];
+    $u->make_spec = [RealOrFakeVillageMakeSpec::class, 'call'];
+    $u->make_url = [RealOrFakeVillageMakeUrl::class, 'call'];
+    $u->param = [RealOrFakeVillageParam::class, 'call'];
+    $u->prepare_auth = [RealOrFakeVillagePrepareAuth::class, 'call'];
+    $u->prepare_body = [RealOrFakeVillagePrepareBody::class, 'call'];
+    $u->prepare_headers = [RealOrFakeVillagePrepareHeaders::class, 'call'];
+    $u->prepare_method = [RealOrFakeVillagePrepareMethod::class, 'call'];
+    $u->prepare_params = [RealOrFakeVillagePrepareParams::class, 'call'];
+    $u->prepare_path = [RealOrFakeVillagePreparePath::class, 'call'];
+    $u->prepare_query = [RealOrFakeVillagePrepareQuery::class, 'call'];
+    $u->graphql_body = [RealOrFakeVillageGraphql::class, 'body'];
+    $u->graphql_errors = [RealOrFakeVillageGraphql::class, 'errors'];
+    $u->result_basic = [RealOrFakeVillageResultBasic::class, 'call'];
+    $u->result_body = [RealOrFakeVillageResultBody::class, 'call'];
+    $u->result_headers = [RealOrFakeVillageResultHeaders::class, 'call'];
+    $u->transform_request = [RealOrFakeVillageTransformRequest::class, 'call'];
+    $u->transform_response = [RealOrFakeVillageTransformResponse::class, 'call'];
+});

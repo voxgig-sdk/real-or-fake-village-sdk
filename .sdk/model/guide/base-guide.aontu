@@ -1,0 +1,57 @@
+# Generated from the API definition and overwritten on every build: do not
+# edit this file. Put customizations in the guide entry file, which includes
+# this one and overrides its defaults:
+#   guide.aontu
+
+guide: {
+  metrics: count: entity: 6
+  metrics: count: path: 7
+  metrics: count: method: 7
+
+  entity: county: {
+    path: "/sate/counties": {
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+  }
+
+  entity: fake: {
+    path: "/sate/fake": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: quiz: {
+    path: "/sate/quiz": {
+      op: load: method: *GET
+      op: load: transform: res: *("`body.data`")|top
+    }
+    path: "/sate/quiz/{token}": {
+      rename: param: "token": *"id"
+      op: load: method: *GET
+      op: load: transform: res: *("`body.data`")|top
+    }
+  }
+
+  entity: random: {
+    path: "/sate/random": {
+      op: load: method: *GET
+      op: load: transform: res: *("`body.data`")|top
+    }
+  }
+
+  entity: sate: {
+    path: "/sate": {
+      op: load: method: *GET
+      op: load: transform: res: *("`body.data`")|top
+    }
+  }
+
+  entity: search: {
+    path: "/sate/search": {
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+  }
+
+}

@@ -1,0 +1,85 @@
+{
+  "existing": {
+    "quiz": {
+      "QUIZ00": {
+        "a": "s8c",
+        "answer": "s8d",
+        "b": "s8e",
+        "correct": false,
+        "fake": {},
+        "guess": "s91",
+        "id": "QUIZ00",
+        "permalink": "s93",
+        "play_again": "s94",
+        "question": "s95",
+        "quip": "s96",
+        "real": {},
+        "seed": "s98",
+        "token": "s99"
+      },
+      "QUIZ01": {
+        "a": "s118",
+        "answer": "s119",
+        "b": "s11a",
+        "correct": false,
+        "fake": {},
+        "guess": "s11d",
+        "id": "QUIZ01",
+        "permalink": "s11f",
+        "play_again": "s120",
+        "question": "s121",
+        "quip": "s122",
+        "real": {},
+        "seed": "s124",
+        "token": "s125"
+      },
+      "QUIZ02": {
+        "a": "s1a4",
+        "answer": "s1a5",
+        "b": "s1a6",
+        "correct": false,
+        "fake": {},
+        "guess": "s1a9",
+        "id": "QUIZ02",
+        "permalink": "s1ab",
+        "play_again": "s1ac",
+        "question": "s1ad",
+        "quip": "s1ae",
+        "real": {},
+        "seed": "s1b0",
+        "token": "s1b1"
+      }
+    }
+  },
+  "new": {
+    "quiz": {
+      "quiz_ref01": {
+        "a": "s230",
+        "answer": "s231",
+        "b": "s232",
+        "correct": false,
+        "fake": {},
+        "guess": "s235",
+        "permalink": "s237",
+        "play_again": "s238",
+        "question": "s239",
+        "quip": "s23a",
+        "real": {},
+        "seed": "s23c",
+        "token": "s23d"
+      }
+    }
+  },
+  "requests": {
+    "GET /sate/quiz/{token}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /sate/quiz": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

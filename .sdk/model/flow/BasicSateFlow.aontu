@@ -1,0 +1,28 @@
+# BasicSateFlow
+
+main: kit: flow: BasicSateFlow:
+{
+  entity: "sate",
+  kind: "basic",
+  name: "BasicSateFlow",
+  step: [
+    {
+      i: {
+        ref: "sate_ref01",
+        srcdatavar: "sate_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-sate_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicSateFlow"
+}

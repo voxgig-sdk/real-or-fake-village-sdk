@@ -1,0 +1,45 @@
+{
+  "existing": {
+    "county": {
+      "COUNTY00": {
+        "code": "s32",
+        "communes": 51,
+        "name": "s34",
+        "random": "s35",
+        "villages": 54
+      },
+      "COUNTY01": {
+        "code": "s64",
+        "communes": 101,
+        "name": "s66",
+        "random": "s67",
+        "villages": 104
+      },
+      "COUNTY02": {
+        "code": "s96",
+        "communes": 151,
+        "name": "s98",
+        "random": "s99",
+        "villages": 154
+      }
+    }
+  },
+  "new": {
+    "county": {
+      "county_ref01": {
+        "code": "sc8",
+        "communes": 201,
+        "name": "sca",
+        "random": "scb",
+        "villages": 204
+      }
+    }
+  },
+  "requests": {
+    "GET /sate/counties": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

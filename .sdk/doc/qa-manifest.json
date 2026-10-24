@@ -1,0 +1,40 @@
+{
+  "files": [
+    "SUMMARY.md"
+  ],
+  "config": ".sdk/doc/qa/vale.ini",
+  "routes": {},
+  "quoted": {
+    "SUMMARY.md": [
+      "> Romanian places, real and made up, from the `api.tasta.space` hub: a quiz pairing one real village name with one machine-made fake, made-up names, random real places, search and the county list. Real places are the 13,750 localities of SIRUTA S1 2026 (Institutul Național de Statistică, CC BY 4.0) with Wikidata coordinates (CC0). Field values are in Romanian, quiz text in English. GET only, JSON in a &#123;&quot;data&quot;: ...&#125; envelope, no key needed (anonymous callers get 30 requests a minute and 1,000 a day per IP, shared across every API on the hub).\n>\n> Sources: the documentation page https://api.tasta.space/sate and the hub rules at https://api.tasta.space/docs, with every modelled endpoint probed live on 2026-10-23 (overview; seeded and random quiz; both guesses on a seeded token, a forged token and a missing guess; seeded and random fake names; random place in MM; search for fundu; counties).\n>\n> Not modelled: format=text (one plain-text line, on quiz, quiz/&#123;token&#125;, fake and random) and /sate/sign, which returns an SVG or PNG entry sign rather than JSON. Unverified: null coordinates and map (documented for places Wikidata has no point for; every place probed had them) and the 410 `quiz_expired` error.",
+      "A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register).",
+      "A page of places",
+      "Always true for a real place.",
+      "Communes, towns and cities in this county.",
+      "Communes, towns and cities.",
+      "Counties, București included.",
+      "County code, as judet takes it.",
+      "County name.",
+      "Data sources and licences.",
+      "Distinct real names the fake-name machine learned from.",
+      "Example links to each endpoint, keyed by name (random, fake, quiz, search, counties, sign).",
+      "Link to a random place in this county.",
+      "Name in slot a.",
+      "Name in slot b.",
+      "Places in the register in this county.",
+      "The administrative unit the place belongs to.",
+      "The checked guess.",
+      "The counties",
+      "The county.",
+      "The made-up name",
+      "The made-up name.",
+      "The overview",
+      "The place",
+      "The quiz",
+      "The slot holding the real place.",
+      "True for the village that is the seat of its commune, and for the main place of a town or city.",
+      "Where it is, from Wikidata; documented as null for the few places Wikidata has no point for.",
+      "Whether the guess was right."
+    ]
+  }
+}

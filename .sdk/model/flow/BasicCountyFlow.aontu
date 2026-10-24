@@ -1,0 +1,22 @@
+# BasicCountyFlow
+
+main: kit: flow: BasicCountyFlow:
+{
+  entity: "county",
+  kind: "basic",
+  name: "BasicCountyFlow",
+  step: [
+    {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "county_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicCountyFlow"
+}

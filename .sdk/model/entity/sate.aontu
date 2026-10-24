@@ -1,0 +1,85 @@
+# Entity: sate
+
+main: kit: entity: sate: {
+
+  alias: field: {}
+
+  fields: {
+    communes: {
+      h: "Communes"
+      n: "communes"
+      r: true
+      sh: "Communes, towns and cities."
+      t: "`$INTEGER`"
+    }
+    counties: {
+      h: "Counties"
+      n: "counties"
+      r: true
+      sh: "Counties, București included."
+      t: "`$INTEGER`"
+    }
+    endpoints: {
+      h: "Endpoints"
+      n: "endpoints"
+      r: true
+      sh: "Example links to each endpoint, keyed by name (random, fake, quiz, search, counties, sign)."
+      t: "`$OBJECT`"
+    }
+    fake_names_learned_from: {
+      h: "Fake Names Learned From"
+      n: "fake_names_learned_from"
+      r: true
+      sh: "Distinct real names the fake-name machine learned from."
+      t: "`$INTEGER`"
+    }
+    source: {
+      h: "Source"
+      n: "source"
+      r: true
+      sh: "Data sources and licences."
+      t: "`$STRING`"
+    }
+    villages: {
+      h: "Villages"
+      n: "villages"
+      r: true
+      sh: "Real places in the register."
+      t: "`$INTEGER`"
+    }
+  }
+
+  name: "sate"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /sate"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/sate"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "sate"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

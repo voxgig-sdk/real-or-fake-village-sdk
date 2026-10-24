@@ -1,0 +1,221 @@
+# Entity: quiz
+
+main: kit: entity: quiz: {
+
+  alias: field: {}
+
+  fields: {
+    a: {
+      h: "A"
+      n: "a"
+      r: true
+      sh: "Name in slot a."
+      t: "`$STRING`"
+    }
+    answer: {
+      h: "Answer"
+      n: "answer"
+      r: true
+      sh: "The slot holding the real place."
+      t: "`$STRING`"
+    }
+    b: {
+      h: "B"
+      n: "b"
+      r: true
+      sh: "Name in slot b."
+      t: "`$STRING`"
+    }
+    correct: {
+      h: "Correct"
+      n: "correct"
+      r: true
+      sh: "Whether the guess was right."
+      t: "`$BOOLEAN`"
+    }
+    fake: {
+      h: "Fake"
+      n: "fake"
+      r: true
+      sh: "The made-up name."
+      t: "`$OBJECT`"
+    }
+    guess: {
+      h: "Guess"
+      n: "guess"
+      r: true
+      sh: "The guess."
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    permalink: {
+      h: "Permalink"
+      n: "permalink"
+      r: true
+      sh: "Link that reproduces this quiz."
+      t: "`$STRING`"
+    }
+    play_again: {
+      h: "Play Again"
+      n: "play_again"
+      r: true
+      sh: "Link to a fresh quiz."
+      t: "`$STRING`"
+    }
+    question: {
+      h: "Question"
+      n: "question"
+      r: true
+      sh: "The question, in English."
+      t: "`$STRING`"
+    }
+    quip: {
+      h: "Quip"
+      n: "quip"
+      r: true
+      sh: "A remark, in English."
+      t: "`$STRING`"
+    }
+    real: {
+      h: "Real"
+      n: "real"
+      r: true
+      sh: "A real place from SIRUTA, the Romanian register of localities."
+      t: "`$OBJECT`"
+    }
+    seed: {
+      h: "Seed"
+      n: "seed"
+      r: true
+      sh: "The seed; the same seed always gives the same quiz."
+      t: "`$STRING`"
+    }
+    token: {
+      h: "Token"
+      n: "token"
+      r: true
+      sh: "The quiz itself, signed (base64url payload plus HMAC)."
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "quiz"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /sate/quiz/{token}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                ex: "eyJ2IjoxLCJyIjoxNjQ3MjEsImYiOiJTaW50ZW5pLVNsb2JvcmVsIiwicyI6ImEifQ.IHzAvNHKqc-eLx39mvzSvw"
+                k: "param"
+                n: "id"
+                or: "token"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                ex: "a"
+                k: "query"
+                n: "guess"
+                or: "guess"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/sate/quiz/{token}"
+          q: {
+            exist: [
+              "guess"
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              token: "id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "sate"
+            }
+            {
+              lit: "quiz"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+        {
+          co: {
+            id: "GET /sate/quiz"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: "mamaliga"
+                k: "query"
+                n: "seed"
+                or: "seed"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/sate/quiz"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "sate"
+            }
+            {
+              lit: "quiz"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

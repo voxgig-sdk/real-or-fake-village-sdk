@@ -1,0 +1,25 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      auth: false
+      description: `Romanian places, real and made up, from the api.tasta.space hub: a quiz pairing one real village name with one machine-made fake, made-up names, random real places, search and the county list. Real places are the 13,750 localities of SIRUTA S1 2026 (Institutul Național de Statistică, CC BY 4.0) with Wikidata coordinates (CC0). Field values are in Romanian, quiz text in English. GET only, JSON in a {"data": ...} envelope, no key needed (anonymous callers get 30 requests a minute and 1,000 a day per IP, shared across every API on the hub).
+
+Sources: the documentation page https://api.tasta.space/sate and the hub rules at https://api.tasta.space/docs, with every modelled endpoint probed live on 2026-10-23 (overview; seeded and random quiz; both guesses on a seeded token, a forged token and a missing guess; seeded and random fake names; random place in MM; search for fundu; counties).
+
+Not modelled: format=text (one plain-text line, on quiz, quiz/{token}, fake and random) and /sate/sign, which returns an SVG or PNG entry sign rather than JSON. Unverified: null coordinates and map (documented for places Wikidata has no point for; every place probed had them) and the 410 quiz_expired error.`
+      servers: [
+        {
+          url: "https://api.tasta.space/v1"
+        }
+      ]
+      summary: "Romanian places, real and made up, from the api.tasta.space hub: a quiz pairing one real village name with one machine-made fake, made-up names, random real places, search and the county list."
+      title: "Real or Fake Village"
+      version: "1.0.0"
+      website: "https://api.tasta.space/sate"
+    }
+  }
+}
+

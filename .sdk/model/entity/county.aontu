@@ -1,0 +1,81 @@
+# Entity: county
+
+main: kit: entity: county: {
+
+  alias: field: {}
+
+  fields: {
+    code: {
+      h: "Code"
+      n: "code"
+      r: true
+      sh: "County code, as judet takes it."
+      t: "`$STRING`"
+    }
+    communes: {
+      h: "Communes"
+      n: "communes"
+      r: true
+      sh: "Communes, towns and cities in this county."
+      t: "`$INTEGER`"
+    }
+    name: {
+      h: "Name"
+      n: "name"
+      r: true
+      sh: "County name."
+      t: "`$STRING`"
+    }
+    random: {
+      h: "Random"
+      n: "random"
+      r: true
+      sh: "Link to a random place in this county."
+      t: "`$STRING`"
+    }
+    villages: {
+      h: "Villages"
+      n: "villages"
+      r: true
+      sh: "Places in the register in this county."
+      t: "`$INTEGER`"
+    }
+  }
+
+  name: "county"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /sate/counties"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/sate/counties"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "sate"
+            }
+            {
+              lit: "counties"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

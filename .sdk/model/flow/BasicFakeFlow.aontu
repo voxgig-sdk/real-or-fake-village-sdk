@@ -1,0 +1,28 @@
+# BasicFakeFlow
+
+main: kit: flow: BasicFakeFlow:
+{
+  entity: "fake",
+  kind: "basic",
+  name: "BasicFakeFlow",
+  step: [
+    {
+      i: {
+        ref: "fake_ref01",
+        srcdatavar: "fake_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-fake_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicFakeFlow"
+}

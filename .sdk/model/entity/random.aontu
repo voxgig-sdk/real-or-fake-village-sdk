@@ -1,0 +1,135 @@
+# Entity: random
+
+main: kit: entity: random: {
+
+  alias: field: {}
+
+  fields: {
+    commune: {
+      h: "Commune"
+      n: "commune"
+      r: true
+      sh: "The administrative unit the place belongs to."
+      t: "`$OBJECT`"
+    }
+    coordinates: {
+      h: "Coordinates"
+      n: "coordinates"
+      r: true
+      sh: "Where it is, from Wikidata; documented as null for the few places Wikidata has no point for."
+      t: "`$OBJECT`"
+    }
+    county: {
+      h: "County"
+      n: "county"
+      r: true
+      sh: "The county."
+      t: "`$OBJECT`"
+    }
+    exists: {
+      h: "Exists"
+      n: "exists"
+      r: true
+      sh: "Always true for a real place."
+      t: "`$BOOLEAN`"
+    }
+    is_seat: {
+      h: "Is Seat"
+      n: "is_seat"
+      r: true
+      sh: "True for the village that is the seat of its commune, and for the main place of a town or city."
+      t: "`$BOOLEAN`"
+    }
+    map: {
+      h: "Map"
+      n: "map"
+      r: true
+      sh: "OpenStreetMap link to the coordinates; documented as null when there are none."
+      t: "`$STRING`"
+    }
+    name: {
+      h: "Name"
+      n: "name"
+      r: true
+      sh: "Place name, in proper case with comma-below ș and ț."
+      t: "`$STRING`"
+    }
+    sign: {
+      h: "Sign"
+      n: "sign"
+      r: true
+      sh: "Link to the place's entry sign (SVG image, not JSON)."
+      t: "`$STRING`"
+    }
+    siruta: {
+      h: "Siruta"
+      n: "siruta"
+      r: true
+      sh: "The place's code in SIRUTA, the national register; tells apart places that share a name."
+      t: "`$INTEGER`"
+    }
+    type: {
+      h: "Type"
+      n: "type"
+      r: true
+      sh: "sat (village), oraș (town), municipiu (city) or localitate componentă (a part of a town or city listed as a place of its own)."
+      t: "`$STRING`"
+    }
+    where: {
+      h: "Where"
+      n: "where"
+      r: false
+      sh: "The commune and county in words."
+      t: "`$STRING`"
+    }
+  }
+
+  name: "random"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /sate/random"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: "MM"
+                k: "query"
+                n: "judet"
+                or: "judet"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/sate/random"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "sate"
+            }
+            {
+              lit: "random"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

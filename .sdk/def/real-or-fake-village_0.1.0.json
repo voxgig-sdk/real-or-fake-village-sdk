@@ -1,0 +1,973 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Real or Fake Village",
+    "version": "1.0.0",
+    "description": "Romanian places, real and made up, from the api.tasta.space hub: a quiz pairing one real village name with one machine-made fake, made-up names, random real places, search and the county list. Real places are the 13,750 localities of SIRUTA S1 2026 (Institutul Național de Statistică, CC BY 4.0) with Wikidata coordinates (CC0). Field values are in Romanian, quiz text in English. GET only, JSON in a {\"data\": ...} envelope, no key needed (anonymous callers get 30 requests a minute and 1,000 a day per IP, shared across every API on the hub).\n\nSources: the documentation page https://api.tasta.space/sate and the hub rules at https://api.tasta.space/docs, with every modelled endpoint probed live on 2026-10-23 (overview; seeded and random quiz; both guesses on a seeded token, a forged token and a missing guess; seeded and random fake names; random place in MM; search for fundu; counties).\n\nNot modelled: format=text (one plain-text line, on quiz, quiz/{token}, fake and random) and /sate/sign, which returns an SVG or PNG entry sign rather than JSON. Unverified: null coordinates and map (documented for places Wikidata has no point for; every place probed had them) and the 410 quiz_expired error."
+  },
+  "externalDocs": {
+    "description": "Real or fake village on api.tasta.space",
+    "url": "https://api.tasta.space/sate"
+  },
+  "servers": [
+    {
+      "url": "https://api.tasta.space/v1"
+    }
+  ],
+  "paths": {
+    "/sate": {
+      "get": {
+        "operationId": "getVillageOverview",
+        "summary": "Counts, source and links",
+        "description": "How many real places, communes and counties there are, where they come from, and a link to every endpoint.",
+        "responses": {
+          "200": {
+            "description": "The overview.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Overview"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Anonymous limit reached (30 a minute, 1,000 a day per IP across the whole api.tasta.space hub); see Retry-After.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sate/quiz": {
+      "get": {
+        "operationId": "getQuiz",
+        "summary": "A real-or-fake quiz",
+        "description": "One real name and one made up, as a and b in random order, a signed token and the two answer links.",
+        "parameters": [
+          {
+            "name": "seed",
+            "in": "query",
+            "required": false,
+            "description": "1 to 64 letters, digits, - or _. The same seed gives the same result forever. Left out, a fresh one is made and echoed back.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,64}$"
+            },
+            "example": "mamaliga"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The quiz.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Quiz"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "invalid_parameter: a county that does not exist, a search shorter than 2 letters, a guess that is not a or b, and so on.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Anonymous limit reached (30 a minute, 1,000 a day per IP across the whole api.tasta.space hub); see Retry-After.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sate/quiz/{token}": {
+      "get": {
+        "operationId": "checkQuizAnswer",
+        "summary": "Check a quiz guess",
+        "description": "Checks the token's signature and the guess: right or wrong, a quip, the real place in full and the fake's name. Nothing is stored server-side.",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "description": "The token from /sate/quiz.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJ2IjoxLCJyIjoxNjQ3MjEsImYiOiJTaW50ZW5pLVNsb2JvcmVsIiwicyI6ImEifQ.IHzAvNHKqc-eLx39mvzSvw"
+          },
+          {
+            "name": "guess",
+            "in": "query",
+            "required": true,
+            "description": "Which slot you think is real.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "a",
+                "b"
+              ]
+            },
+            "example": "a"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The checked guess.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/QuizResult"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "quiz_expired: a real token whose village has since left the register.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "invalid_token (a token not signed here, or edited) or invalid_parameter (guess missing or not a or b).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Anonymous limit reached (30 a minute, 1,000 a day per IP across the whole api.tasta.space hub); see Retry-After.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sate/fake": {
+      "get": {
+        "operationId": "getFakeName",
+        "summary": "A made-up village name",
+        "description": "A made-up name that is nowhere in the register.",
+        "parameters": [
+          {
+            "name": "seed",
+            "in": "query",
+            "required": false,
+            "description": "1 to 64 letters, digits, - or _. The same seed gives the same result forever. Left out, a fresh one is made and echoed back.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,64}$"
+            },
+            "example": "mamaliga"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The made-up name.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/FakeName"
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "learned_from": {
+                          "type": "string",
+                          "description": "What the name machine learned from.",
+                          "example": "10236 real names"
+                        }
+                      },
+                      "required": [
+                        "learned_from"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "invalid_parameter: a county that does not exist, a search shorter than 2 letters, a guess that is not a or b, and so on.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Anonymous limit reached (30 a minute, 1,000 a day per IP across the whole api.tasta.space hub); see Retry-After.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sate/random": {
+      "get": {
+        "operationId": "getRandomPlace",
+        "summary": "A random real place",
+        "description": "A real place: type, commune, county, SIRUTA code, coordinates.",
+        "parameters": [
+          {
+            "name": "judet",
+            "in": "query",
+            "required": false,
+            "description": "One county, by code (CJ, B) or by name, diacritics optional (cluj, bistrita-nasaud).",
+            "schema": {
+              "type": "string"
+            },
+            "example": "MM"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The place.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Place"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "invalid_parameter: a county that does not exist, a search shorter than 2 letters, a guess that is not a or b, and so on.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Anonymous limit reached (30 a minute, 1,000 a day per IP across the whole api.tasta.space hub); see Retry-After.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sate/search": {
+      "get": {
+        "operationId": "searchPlaces",
+        "summary": "Search real places by name",
+        "description": "Real places whose name contains q, best matches first. Case and diacritics do not matter.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "description": "2 to 40 characters to look for in the name (fundu finds Fundu Moldovei, gara finds Lehliu-Gară).",
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 40
+            },
+            "example": "fundu"
+          },
+          {
+            "name": "judet",
+            "in": "query",
+            "required": false,
+            "description": "One county, by code (CJ, B) or by name, diacritics optional (cluj, bistrita-nasaud).",
+            "schema": {
+              "type": "string"
+            },
+            "example": "MM"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Page number, from 1.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "example": 1
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "description": "Places per page, 1 to 50.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 20
+            },
+            "example": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A page of places.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Place"
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "per_page": {
+                          "type": "integer",
+                          "example": 5
+                        },
+                        "total": {
+                          "type": "integer",
+                          "description": "Places matching.",
+                          "example": 8
+                        },
+                        "last_page": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "filters": {
+                          "type": "object",
+                          "description": "The filters applied.",
+                          "properties": {
+                            "q": {
+                              "type": "string",
+                              "example": "fundu"
+                            },
+                            "judet": {
+                              "type": "string",
+                              "example": "MM"
+                            }
+                          },
+                          "required": [
+                            "q"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "page",
+                        "per_page",
+                        "total",
+                        "last_page",
+                        "filters"
+                      ]
+                    },
+                    "links": {
+                      "type": "object",
+                      "description": "Pagination links.",
+                      "properties": {
+                        "next": {
+                          "type": "string",
+                          "description": "URL of the next page, or null on the last page.",
+                          "nullable": true
+                        },
+                        "prev": {
+                          "type": "string",
+                          "description": "URL of the previous page, or null on the first page.",
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "next",
+                        "prev"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "links"
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "invalid_parameter: a county that does not exist, a search shorter than 2 letters, a guess that is not a or b, and so on.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Anonymous limit reached (30 a minute, 1,000 a day per IP across the whole api.tasta.space hub); see Retry-After.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sate/counties": {
+      "get": {
+        "operationId": "listCounties",
+        "summary": "List the counties",
+        "description": "The 41 counties and București, with the codes judet takes and how many places each has.",
+        "responses": {
+          "200": {
+            "description": "The counties.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/County"
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer",
+                          "description": "Number of counties.",
+                          "example": 42
+                        }
+                      },
+                      "required": [
+                        "total"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Anonymous limit reached (30 a minute, 1,000 a day per IP across the whole api.tasta.space hub); see Retry-After.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Overview": {
+        "type": "object",
+        "description": "Counts, the source and a link to every endpoint.",
+        "properties": {
+          "villages": {
+            "type": "integer",
+            "description": "Real places in the register.",
+            "example": 13750
+          },
+          "communes": {
+            "type": "integer",
+            "description": "Communes, towns and cities.",
+            "example": 3181
+          },
+          "counties": {
+            "type": "integer",
+            "description": "Counties, București included.",
+            "example": 42
+          },
+          "fake_names_learned_from": {
+            "type": "integer",
+            "description": "Distinct real names the fake-name machine learned from.",
+            "example": 10236
+          },
+          "source": {
+            "type": "string",
+            "description": "Data sources and licences.",
+            "example": "SIRUTA, Institutul Național de Statistică (SIRUTA S1 2026), CC BY 4.0. Coordinates: Wikidata, CC0."
+          },
+          "endpoints": {
+            "type": "object",
+            "description": "Example links to each endpoint, keyed by name (random, fake, quiz, search, counties, sign).",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "villages",
+          "communes",
+          "counties",
+          "fake_names_learned_from",
+          "source",
+          "endpoints"
+        ]
+      },
+      "Quiz": {
+        "type": "object",
+        "description": "One real place name and one made-up name, in random order.",
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "The question, in English.",
+            "example": "One of these is a real place in Romania. We made the other one up. Which one is real?"
+          },
+          "a": {
+            "type": "string",
+            "description": "Name in slot a.",
+            "example": "Corbu"
+          },
+          "b": {
+            "type": "string",
+            "description": "Name in slot b.",
+            "example": "Sinteni-Sloborel"
+          },
+          "token": {
+            "type": "string",
+            "description": "The quiz itself, signed (base64url payload plus HMAC). Pass it to /sate/quiz/{token}. Signed, not encrypted.",
+            "example": "eyJ2IjoxLCJyIjoxNjQ3MjEsImYiOiJTaW50ZW5pLVNsb2JvcmVsIiwicyI6ImEifQ.IHzAvNHKqc-eLx39mvzSvw"
+          },
+          "answer": {
+            "type": "object",
+            "description": "The two answer links.",
+            "properties": {
+              "a": {
+                "type": "string",
+                "description": "Link that answers a.",
+                "example": "https://api.tasta.space/v1/sate/quiz/eyJ2IjoxLCJyIjoxNjQ3MjEsImYiOiJTaW50ZW5pLVNsb2JvcmVsIiwicyI6ImEifQ.IHzAvNHKqc-eLx39mvzSvw?guess=a"
+              },
+              "b": {
+                "type": "string",
+                "description": "Link that answers b.",
+                "example": "https://api.tasta.space/v1/sate/quiz/eyJ2IjoxLCJyIjoxNjQ3MjEsImYiOiJTaW50ZW5pLVNsb2JvcmVsIiwicyI6ImEifQ.IHzAvNHKqc-eLx39mvzSvw?guess=b"
+              }
+            },
+            "required": [
+              "a",
+              "b"
+            ]
+          },
+          "seed": {
+            "type": "string",
+            "description": "The seed; the same seed always gives the same quiz.",
+            "example": "mamaliga"
+          },
+          "permalink": {
+            "type": "string",
+            "description": "Link that reproduces this quiz.",
+            "example": "https://api.tasta.space/v1/sate/quiz?seed=mamaliga"
+          }
+        },
+        "required": [
+          "question",
+          "a",
+          "b",
+          "token",
+          "answer",
+          "seed",
+          "permalink"
+        ]
+      },
+      "QuizResult": {
+        "type": "object",
+        "description": "A checked quiz guess.",
+        "properties": {
+          "correct": {
+            "type": "boolean",
+            "description": "Whether the guess was right.",
+            "example": true
+          },
+          "guess": {
+            "type": "string",
+            "description": "The guess.",
+            "enum": [
+              "a",
+              "b"
+            ],
+            "example": "a"
+          },
+          "answer": {
+            "type": "string",
+            "description": "The slot holding the real place.",
+            "enum": [
+              "a",
+              "b"
+            ],
+            "example": "a"
+          },
+          "quip": {
+            "type": "string",
+            "description": "A remark, in English.",
+            "example": "Correct. Corbu is real, in comuna Lipovăț, județul Vaslui. Sinteni-Sloborel exists only in our heads."
+          },
+          "real": {
+            "$ref": "#/components/schemas/Place"
+          },
+          "fake": {
+            "type": "object",
+            "description": "The made-up name.",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The made-up name.",
+                "example": "Sinteni-Sloborel"
+              },
+              "exists": {
+                "type": "boolean",
+                "description": "Always false.",
+                "example": false
+              },
+              "sign": {
+                "type": "string",
+                "description": "Link to its crossed-out exit sign (SVG image).",
+                "example": "https://api.tasta.space/v1/sate/sign?name=Sinteni-Sloborel&exit=1"
+              }
+            },
+            "required": [
+              "name",
+              "exists",
+              "sign"
+            ]
+          },
+          "play_again": {
+            "type": "string",
+            "description": "Link to a fresh quiz.",
+            "example": "https://api.tasta.space/v1/sate/quiz"
+          }
+        },
+        "required": [
+          "correct",
+          "guess",
+          "answer",
+          "quip",
+          "real",
+          "fake",
+          "play_again"
+        ]
+      },
+      "FakeName": {
+        "type": "object",
+        "description": "A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register).",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "A made-up village name that is nowhere in the register.",
+            "example": "Solați"
+          },
+          "exists": {
+            "type": "boolean",
+            "description": "Always false.",
+            "example": false
+          },
+          "seed": {
+            "type": "string",
+            "description": "The seed; the same seed always gives the same name.",
+            "example": "mamaliga"
+          },
+          "permalink": {
+            "type": "string",
+            "description": "Link that reproduces this name.",
+            "example": "https://api.tasta.space/v1/sate/fake?seed=mamaliga"
+          },
+          "sign": {
+            "type": "string",
+            "description": "Link to its entry sign (SVG image).",
+            "example": "https://api.tasta.space/v1/sate/sign?name=Sola%C8%9Bi"
+          }
+        },
+        "required": [
+          "name",
+          "exists",
+          "seed",
+          "permalink",
+          "sign"
+        ]
+      },
+      "Place": {
+        "type": "object",
+        "description": "A real place from SIRUTA, the Romanian register of localities.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Place name, in proper case with comma-below ș and ț.",
+            "example": "Covrigi"
+          },
+          "type": {
+            "type": "string",
+            "description": "sat (village), oraș (town), municipiu (city) or localitate componentă (a part of a town or city listed as a place of its own).",
+            "example": "sat"
+          },
+          "is_seat": {
+            "type": "boolean",
+            "description": "True for the village that is the seat of its commune, and for the main place of a town or city.",
+            "example": false
+          },
+          "commune": {
+            "type": "object",
+            "description": "The administrative unit the place belongs to.",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the administrative unit.",
+                "example": "Văgiulești"
+              },
+              "type": {
+                "type": "string",
+                "description": "comună, oraș or municipiu.",
+                "example": "comună"
+              },
+              "siruta": {
+                "type": "integer",
+                "description": "The unit's own SIRUTA code.",
+                "example": 82779
+              }
+            },
+            "required": [
+              "name",
+              "type",
+              "siruta"
+            ]
+          },
+          "county": {
+            "type": "object",
+            "description": "The county.",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "County name (or București).",
+                "example": "Gorj"
+              },
+              "code": {
+                "type": "string",
+                "description": "County code, as the judet parameter takes it.",
+                "example": "GJ"
+              }
+            },
+            "required": [
+              "name",
+              "code"
+            ]
+          },
+          "siruta": {
+            "type": "integer",
+            "description": "The place's code in SIRUTA, the national register; tells apart places that share a name.",
+            "example": 82804
+          },
+          "coordinates": {
+            "type": "object",
+            "description": "Where it is, from Wikidata; documented as null for the few places Wikidata has no point for.",
+            "properties": {
+              "lat": {
+                "type": "number",
+                "example": 44.7382
+              },
+              "lon": {
+                "type": "number",
+                "example": 23.1492
+              }
+            },
+            "required": [
+              "lat",
+              "lon"
+            ],
+            "nullable": true
+          },
+          "map": {
+            "type": "string",
+            "description": "OpenStreetMap link to the coordinates; documented as null when there are none.",
+            "example": "https://www.openstreetmap.org/?mlat=44.7382&mlon=23.1492#map=14/44.7382/23.1492",
+            "nullable": true
+          },
+          "sign": {
+            "type": "string",
+            "description": "Link to the place's entry sign (SVG image, not JSON).",
+            "example": "https://api.tasta.space/v1/sate/sign?name=Covrigi"
+          },
+          "exists": {
+            "type": "boolean",
+            "description": "Always true for a real place.",
+            "example": true
+          },
+          "where": {
+            "type": "string",
+            "description": "The commune and county in words. Only inside a quiz result.",
+            "example": "comuna Lipovăț, județul Vaslui"
+          }
+        },
+        "required": [
+          "name",
+          "type",
+          "is_seat",
+          "commune",
+          "county",
+          "siruta",
+          "coordinates",
+          "map",
+          "sign",
+          "exists"
+        ]
+      },
+      "County": {
+        "type": "object",
+        "description": "One of the 41 counties, or București.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "County name.",
+            "example": "Alba"
+          },
+          "code": {
+            "type": "string",
+            "description": "County code, as judet takes it.",
+            "example": "AB"
+          },
+          "villages": {
+            "type": "integer",
+            "description": "Places in the register in this county.",
+            "example": 716
+          },
+          "communes": {
+            "type": "integer",
+            "description": "Communes, towns and cities in this county.",
+            "example": 78
+          },
+          "random": {
+            "type": "string",
+            "description": "Link to a random place in this county.",
+            "example": "https://api.tasta.space/v1/sate/random?judet=AB"
+          }
+        },
+        "required": [
+          "name",
+          "code",
+          "villages",
+          "communes",
+          "random"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "description": "The hub's error envelope.",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "Stable machine-readable code (the hub's codes plus this API's own).",
+                "example": "invalid_token"
+              },
+              "message": {
+                "type": "string",
+                "description": "Human-readable message; may be a joke.",
+                "example": "That quiz token was not signed here, or someone edited it. Get a fresh quiz at https://api.tasta.space/v1/sate/quiz."
+              }
+            },
+            "required": [
+              "code",
+              "message"
+            ]
+          }
+        },
+        "required": [
+          "error"
+        ]
+      }
+    }
+  }
+}

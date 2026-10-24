@@ -1,0 +1,28 @@
+# BasicQuizFlow
+
+main: kit: flow: BasicQuizFlow:
+{
+  entity: "quiz",
+  kind: "basic",
+  name: "BasicQuizFlow",
+  step: [
+    {
+      i: {
+        ref: "quiz_ref01",
+        srcdatavar: "quiz_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-quiz_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicQuizFlow"
+}

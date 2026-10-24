@@ -1,0 +1,69 @@
+{
+  "existing": {
+    "search": {
+      "SEARCH00": {
+        "commune": {},
+        "coordinates": {},
+        "county": {},
+        "exists": false,
+        "is_seat": true,
+        "map": "s73",
+        "name": "s74",
+        "sign": "s75",
+        "siruta": 118,
+        "type": "s77",
+        "where": "s78"
+      },
+      "SEARCH01": {
+        "commune": {},
+        "coordinates": {},
+        "county": {},
+        "exists": false,
+        "is_seat": true,
+        "map": "se1",
+        "name": "se2",
+        "sign": "se3",
+        "siruta": 228,
+        "type": "se5",
+        "where": "se6"
+      },
+      "SEARCH02": {
+        "commune": {},
+        "coordinates": {},
+        "county": {},
+        "exists": false,
+        "is_seat": true,
+        "map": "s14f",
+        "name": "s150",
+        "sign": "s151",
+        "siruta": 338,
+        "type": "s153",
+        "where": "s154"
+      }
+    }
+  },
+  "new": {
+    "search": {
+      "search_ref01": {
+        "commune": {},
+        "coordinates": {},
+        "county": {},
+        "exists": false,
+        "is_seat": true,
+        "map": "s1bd",
+        "name": "s1be",
+        "sign": "s1bf",
+        "siruta": 448,
+        "type": "s1c1",
+        "where": "s1c2"
+      }
+    }
+  },
+  "requests": {
+    "GET /sate/search": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "existing": {
+    "sate": {
+      "SATE00": {
+        "communes": 60,
+        "counties": 61,
+        "endpoints": {},
+        "fake_names_learned_from": 63,
+        "source": "s40",
+        "villages": 65,
+        "id": "SATE00"
+      },
+      "SATE01": {
+        "communes": 120,
+        "counties": 121,
+        "endpoints": {},
+        "fake_names_learned_from": 123,
+        "source": "s7c",
+        "villages": 125,
+        "id": "SATE01"
+      },
+      "SATE02": {
+        "communes": 180,
+        "counties": 181,
+        "endpoints": {},
+        "fake_names_learned_from": 183,
+        "source": "sb8",
+        "villages": 185,
+        "id": "SATE02"
+      }
+    }
+  },
+  "new": {
+    "sate": {
+      "sate_ref01": {
+        "communes": 240,
+        "counties": 241,
+        "endpoints": {},
+        "fake_names_learned_from": 243,
+        "source": "sf4",
+        "villages": 245
+      }
+    }
+  },
+  "requests": {
+    "GET /sate": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "existing": {
+    "fake": {
+      "FAKE00": {
+        "data": {},
+        "meta": {},
+        "id": "FAKE00"
+      },
+      "FAKE01": {
+        "data": {},
+        "meta": {},
+        "id": "FAKE01"
+      },
+      "FAKE02": {
+        "data": {},
+        "meta": {},
+        "id": "FAKE02"
+      }
+    }
+  },
+  "new": {
+    "fake": {
+      "fake_ref01": {
+        "data": {},
+        "meta": {}
+      }
+    }
+  },
+  "requests": {
+    "GET /sate/fake": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}
