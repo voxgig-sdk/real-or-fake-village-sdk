@@ -45,9 +45,18 @@ describe("QuizEntity", function()
       end
     end
     if setup.live then
-      runner.live_miss(pending, LIVE_STRICT, "Live entity test blocked: " .. "the flow loads a quiz record it has no list to find")
+      for _live_key, _live_ex in pairs({["quiz01"] = "eyJ2IjoxLCJyIjoxNjQ3MjEsImYiOiJTaW50ZW5pLVNsb2JvcmVsIiwicyI6ImEifQ.IHzAvNHKqc-eLx39mvzSvw"}) do
+        if setup.synthetic_only or setup.idmap[_live_key] == nil then
+          setup.idmap[_live_key] = _live_ex
+        end
+      end
     end
     local client = setup.client
+    if setup.live then
+      runner.live_existing(pending, setup, LIVE_STRICT, "quiz", function()
+        return { { id = setup.idmap["quiz01"] } }
+      end, "id", setup.idmap["quiz01"])
+    end
 
     -- Bootstrap entity data from existing test data.
     local quiz_ref01_data_raw = vs.items(helpers.to_map(
@@ -57,16 +66,24 @@ describe("QuizEntity", function()
       quiz_ref01_data = helpers.to_map(quiz_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LOAD
     local quiz_ref01_ent = client:Quiz(nil)
     local quiz_ref01_match_dt0 = {
       id = quiz_ref01_data["id"],
     }
+    if setup.live then
+      quiz_ref01_match_dt0["guess"] = "a"
+    end
     local quiz_ref01_data_dt0_loaded, err = quiz_ref01_ent:load(quiz_ref01_match_dt0, nil)
     assert.is_nil(err)
     local quiz_ref01_data_dt0_load_result = helpers.to_map(type(quiz_ref01_data_dt0_loaded) == 'table' and quiz_ref01_data_dt0_loaded.data_get and quiz_ref01_data_dt0_loaded:data_get() or quiz_ref01_data_dt0_loaded)
     assert.is_not_nil(quiz_ref01_data_dt0_load_result)
-    assert.are.equal(quiz_ref01_data_dt0_load_result["id"], quiz_ref01_data["id"])
+    if not setup.live then
+      assert.is_true(runner.live_same_id(quiz_ref01_data_dt0_load_result["id"], quiz_ref01_data["id"]))
+    end
 
   end)
 end)

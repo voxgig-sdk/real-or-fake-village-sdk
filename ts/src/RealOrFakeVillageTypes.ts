@@ -22,8 +22,11 @@ export interface CountyListMatch {
 }
 
 export interface Fake {
-  data: Record<string, any>
-  meta: Record<string, any>
+  exists: boolean
+  name: string
+  permalink: string
+  seed: string
+  sign: string
 }
 
 export interface FakeLoadMatch {

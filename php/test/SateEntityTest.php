@@ -62,6 +62,9 @@ class SateEntityTest extends TestCase
             $sate_ref01_data = Helpers::to_map($sate_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LOAD
         $sate_ref01_ent = $client->Sate(null);
         $sate_ref01_match_dt0 = [];

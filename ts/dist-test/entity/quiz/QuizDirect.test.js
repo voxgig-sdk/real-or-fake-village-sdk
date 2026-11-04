@@ -87,6 +87,8 @@ function directSetup(mockres) {
         if ('string' === typeof idmap && idmap.startsWith('{')) {
             idmap = JSON.parse(idmap);
         }
+        // A path parameter's example stands in for an id *_ENTID does not give.
+        idmap = Object.assign({ quiz01: 'eyJ2IjoxLCJyIjoxNjQ3MjEsImYiOiJTaW50ZW5pLVNsb2JvcmVsIiwicyI6ImEifQ.IHzAvNHKqc-eLx39mvzSvw' }, 'object' === typeof idmap ? idmap : {});
         return { client, calls, live, idmap, transport };
     }
     const mockFetch = async (url, init) => {

@@ -75,6 +75,9 @@ func TestRandomEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = randomRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LOAD
 		randomRef01Ent := client.Random(nil)
 		randomRef01MatchDt0 := map[string]any{}

@@ -167,9 +167,13 @@ class SearchEntityTest < Minitest::Test
       search_ref01_data = Helpers.to_map(search_ref01_data_raw[0][1])
     end
 
+    Runner.live_pace if setup[:live]
     # LIST
     search_ref01_ent = client.Search(nil)
     search_ref01_match = {}
+    if setup[:live]
+      search_ref01_match["q"] = "fundu"
+    end
 
     search_ref01_list_result = search_ref01_ent.list(search_ref01_match, nil)
     assert search_ref01_list_result.is_a?(Array)

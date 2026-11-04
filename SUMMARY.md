@@ -38,7 +38,11 @@ SDK operations: `load`.
 
 Key fields to recognise:
 
-- `data`: A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register).
+- `exists`: Always false.
+- `name`: A made-up village name that is nowhere in the register.
+- `permalink`: Link that reproduces this name.
+- `seed`: The seed; the same seed always gives the same name.
+- `sign`: Link to its entry sign (SVG image).
 
 ### Quiz
 

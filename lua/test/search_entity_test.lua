@@ -164,9 +164,15 @@ describe("SearchEntity", function()
       search_ref01_data = helpers.to_map(search_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LIST
     local search_ref01_ent = client:Search(nil)
     local search_ref01_match = {}
+    if setup.live then
+      search_ref01_match["q"] = "fundu"
+    end
 
     local search_ref01_list_result, err = search_ref01_ent:list(search_ref01_match, nil)
     assert.is_nil(err)

@@ -21,8 +21,11 @@
 ---@field villages? number
 
 ---@class Fake
----@field data table
----@field meta table
+---@field exists boolean
+---@field name string
+---@field permalink string
+---@field seed string
+---@field sign string
 
 ---@class FakeLoadMatch
 ---@field seed? string

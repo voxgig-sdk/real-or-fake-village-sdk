@@ -24,6 +24,7 @@ class QuizDirectTest < Minitest::Test
       skip(_reason || "skipped via sdk-test-control.json")
       return
     end
+    Runner.live_pace if setup[:live]
     client = setup[:client]
 
     params = {}
@@ -83,6 +84,9 @@ def quiz_direct_setup(mockres)
     })
     client = RealOrFakeVillageSDK.new(merged_opts)
     idmap = env["REAL_OR_FAKE_VILLAGE_TEST_QUIZ_ENTID"]
+    # A path parameter's example stands in for an id *_ENTID does not give.
+    idmap = { "quiz01" => "eyJ2IjoxLCJyIjoxNjQ3MjEsImYiOiJTaW50ZW5pLVNsb2JvcmVsIiwicyI6ImEifQ.IHzAvNHKqc-eLx39mvzSvw" }
+      .merge(idmap.is_a?(Hash) ? idmap : {})
     return {
       client: client,
       calls: calls,

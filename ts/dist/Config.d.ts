@@ -119,19 +119,13 @@ declare class Config {
             };
         };
         fake: {
-            fields: ({
+            fields: {
                 name: string;
                 title: string;
                 type: string;
                 req: boolean;
                 short: string;
-            } | {
-                name: string;
-                title: string;
-                type: string;
-                req: boolean;
-                short?: undefined;
-            })[];
+            }[];
             name: string;
             op: {
                 load: {
@@ -157,6 +151,7 @@ declare class Config {
                                 type: string;
                                 kind: string;
                                 example: string;
+                                field: boolean;
                             }[];
                         };
                         select: {};

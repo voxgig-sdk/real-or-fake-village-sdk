@@ -212,6 +212,9 @@ func TestCountyEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = countyRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LIST
 		countyRef01Ent := client.County(nil)
 		countyRef01Match := map[string]any{}

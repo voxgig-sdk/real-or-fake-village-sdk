@@ -28,6 +28,9 @@ describe("QuizDirect", function()
       pending(_reason or "skipped via sdk-test-control.json")
       return
     end
+    if setup.live then
+      runner.live_pace()
+    end
     local client = setup.client
 
     local params = {}
@@ -92,6 +95,15 @@ function quiz_direct_setup(mockres)
     end
     local client = sdk.new(merged_opts)
     local idmap = env["REAL_OR_FAKE_VILLAGE_TEST_QUIZ_ENTID"]
+    if type(idmap) ~= "table" then
+      idmap = {}
+    end
+    -- A path parameter's example stands in for an id *_ENTID does not give.
+    for _k, _v in pairs({["quiz01"] = "eyJ2IjoxLCJyIjoxNjQ3MjEsImYiOiJTaW50ZW5pLVNsb2JvcmVsIiwicyI6ImEifQ.IHzAvNHKqc-eLx39mvzSvw"}) do
+      if idmap[_k] == nil then
+        idmap[_k] = _v
+      end
+    end
     return {
       client = client,
       calls = calls,

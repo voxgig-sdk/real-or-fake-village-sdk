@@ -221,16 +221,16 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `GetUtility` | `() *Utility` | Copy of the SDK utility object. |
 | `Prepare` | `(fetchargs map[string]any) (map[string]any, error)` | Build an HTTP request definition without sending. |
 | `Direct` | `(fetchargs map[string]any) (map[string]any, error)` | Build and send an HTTP request. |
-| `County` | `(data map[string]any) RealOrFakeVillageEntity` | Create a County entity instance. |
-| `Fake` | `(data map[string]any) RealOrFakeVillageEntity` | Create a Fake entity instance. |
-| `Quiz` | `(data map[string]any) RealOrFakeVillageEntity` | Create a Quiz entity instance. |
-| `Random` | `(data map[string]any) RealOrFakeVillageEntity` | Create a Random entity instance. |
-| `Sate` | `(data map[string]any) RealOrFakeVillageEntity` | Create a Sate entity instance. |
-| `Search` | `(data map[string]any) RealOrFakeVillageEntity` | Create a Search entity instance. |
+| `County` | `(data map[string]any) RealOrFakeVillageEntityBase` | Create a County entity instance. |
+| `Fake` | `(data map[string]any) RealOrFakeVillageEntityBase` | Create a Fake entity instance. |
+| `Quiz` | `(data map[string]any) RealOrFakeVillageEntityBase` | Create a Quiz entity instance. |
+| `Random` | `(data map[string]any) RealOrFakeVillageEntityBase` | Create a Random entity instance. |
+| `Sate` | `(data map[string]any) RealOrFakeVillageEntityBase` | Create a Sate entity instance. |
+| `Search` | `(data map[string]any) RealOrFakeVillageEntityBase` | Create a Search entity instance. |
 
-### Entity interface (RealOrFakeVillageEntity)
+### Entity interface (RealOrFakeVillageEntityBase)
 
-All entities implement the `RealOrFakeVillageEntity` interface.
+All entities implement the `RealOrFakeVillageEntityBase` interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
@@ -282,8 +282,11 @@ API path: `/sate/counties`
 
 | Field | Description |
 | --- | --- |
-| `"data"` | A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register). |
-| `"meta"` |  |
+| `"exists"` | Always false. |
+| `"name"` | A made-up village name that is nowhere in the register. |
+| `"permalink"` | Link that reproduces this name. |
+| `"seed"` | The seed; the same seed always gives the same name. |
+| `"sign"` | Link to its entry sign (SVG image). |
 
 Operations: Load.
 
@@ -420,8 +423,11 @@ Create an instance: `fake := client.Fake(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `map[string]any` | A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register). |
-| `meta` | `map[string]any` |  |
+| `exists` | `bool` | Always false. |
+| `name` | `string` | A made-up village name that is nowhere in the register. |
+| `permalink` | `string` | Link that reproduces this name. |
+| `seed` | `string` | The seed; the same seed always gives the same name. |
+| `sign` | `string` | Link to its entry sign (SVG image). |
 
 #### Example: Load
 

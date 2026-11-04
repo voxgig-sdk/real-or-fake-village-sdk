@@ -276,8 +276,11 @@ API path: `/sate/counties`
 
 | Field | Description |
 | --- | --- |
-| `data` | A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register). |
-| `meta` |  |
+| `exists` | Always false. |
+| `name` | A made-up village name that is nowhere in the register. |
+| `permalink` | Link that reproduces this name. |
+| `seed` | The seed; the same seed always gives the same name. |
+| `sign` | Link to its entry sign (SVG image). |
 
 Operations: Load.
 
@@ -408,8 +411,11 @@ Create an instance: `$fake = $client->Fake();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `array` | A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register). |
-| `meta` | `array` |  |
+| `exists` | `bool` | Always false. |
+| `name` | `string` | A made-up village name that is nowhere in the register. |
+| `permalink` | `string` | Link that reproduces this name. |
+| `seed` | `string` | The seed; the same seed always gives the same name. |
+| `sign` | `string` | Link to its entry sign (SVG image). |
 
 #### Example: Load
 

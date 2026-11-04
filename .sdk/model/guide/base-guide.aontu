@@ -18,6 +18,7 @@ guide: {
   entity: fake: {
     path: "/sate/fake": {
       op: load: method: *GET
+      op: load: transform: res: *("`body.data`")|top
     }
   }
 

@@ -115,7 +115,7 @@ class RealOrFakeVillageContext
   end
 
   def make_error(code, msg)
-    RealOrFakeVillageError.new(code, msg, self)
+    RealOrFakeVillageError.new(msg, code: code, ctx: self)
   end
 
   # The serialised context leaves the pipeline (a logger, an error dump), so

@@ -30,12 +30,15 @@ class QuizDirectTest extends TestCase
             $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
             return;
         }
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         $client = $setup["client"];
 
         $params = [];
         $query = [];
         if ($setup["live"]) {
-            $query["guess"] = "a";
+            $query["guess"] = 'a';
             $params["id"] = "eyJ2IjoxLCJyIjoxNjQ3MjEsImYiOiJTaW50ZW5pLVNsb2JvcmVsIiwicyI6ImEifQ.IHzAvNHKqc-eLx39mvzSvw";
         } else {
             $params["id"] = "direct01";
@@ -90,6 +93,9 @@ function quiz_direct_setup($mockres)
         ]);
         $client = new RealOrFakeVillageSDK($merged_opts);
         $idmap = $env["REAL_OR_FAKE_VILLAGE_TEST_QUIZ_ENTID"] ?? [];
+        // A path parameter's example stands in for an id *_ENTID does not give.
+        $idmap = array_merge(["quiz01" => 'eyJ2IjoxLCJyIjoxNjQ3MjEsImYiOiJTaW50ZW5pLVNsb2JvcmVsIiwicyI6ImEifQ.IHzAvNHKqc-eLx39mvzSvw'],
+            is_array($idmap) ? $idmap : []);
         return [
             "client" => $client,
             "calls" => $calls,

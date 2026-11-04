@@ -60,14 +60,26 @@ CountyListMatch = Struct.new(
 
 # Fake entity data model.
 #
-# @!attribute [rw] data
-#   @return [Hash]
+# @!attribute [rw] exists
+#   @return [Boolean]
 #
-# @!attribute [rw] meta
-#   @return [Hash]
+# @!attribute [rw] name
+#   @return [String]
+#
+# @!attribute [rw] permalink
+#   @return [String]
+#
+# @!attribute [rw] seed
+#   @return [String]
+#
+# @!attribute [rw] sign
+#   @return [String]
 Fake = Struct.new(
-  :data,
-  :meta,
+  :exists,
+  :name,
+  :permalink,
+  :seed,
+  :sign,
   keyword_init: true
 )
 

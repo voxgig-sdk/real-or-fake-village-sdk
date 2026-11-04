@@ -53,9 +53,17 @@ class QuizEntityTest extends TestCase
             }
         }
         if (!empty($setup["live"])) {
-            Runner::live_miss(self::LIVE_STRICT, "Live entity test blocked: " . "the flow loads a quiz record it has no list to find");
+            foreach (["quiz01" => 'eyJ2IjoxLCJyIjoxNjQ3MjEsImYiOiJTaW50ZW5pLVNsb2JvcmVsIiwicyI6ImEifQ.IHzAvNHKqc-eLx39mvzSvw'] as $_liveKey => $_liveEx) {
+                if (!empty($setup["synthetic_only"]) || null === ($setup["idmap"][$_liveKey] ?? null)) {
+                    $setup["idmap"][$_liveKey] = $_liveEx;
+                }
+            }
         }
         $client = $setup["client"];
+        if (!empty($setup["live"])) {
+            Runner::live_existing($setup, self::LIVE_STRICT, "quiz",
+                fn() => [["id" => $setup["idmap"]["quiz01"] ?? null]], "id", $setup["idmap"]["quiz01"] ?? null);
+        }
 
         // Bootstrap entity data from existing test data.
         $quiz_ref01_data_raw = Vs::items(Helpers::to_map(
@@ -65,15 +73,23 @@ class QuizEntityTest extends TestCase
             $quiz_ref01_data = Helpers::to_map($quiz_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LOAD
         $quiz_ref01_ent = $client->Quiz(null);
         $quiz_ref01_match_dt0 = [
             "id" => $quiz_ref01_data["id"],
         ];
+        if (!empty($setup["live"])) {
+            $quiz_ref01_match_dt0["guess"] = 'a';
+        }
         $quiz_ref01_data_dt0_loaded = $quiz_ref01_ent->load($quiz_ref01_match_dt0, null);
         $quiz_ref01_data_dt0_load_result = Helpers::to_map(is_object($quiz_ref01_data_dt0_loaded) && method_exists($quiz_ref01_data_dt0_loaded, 'data_get') ? $quiz_ref01_data_dt0_loaded->data_get() : $quiz_ref01_data_dt0_loaded);
         $this->assertNotNull($quiz_ref01_data_dt0_load_result);
-        $this->assertEquals($quiz_ref01_data_dt0_load_result["id"], $quiz_ref01_data["id"]);
+        if (empty($setup["live"])) {
+            $this->assertTrue(Runner::live_same_id($quiz_ref01_data_dt0_load_result["id"] ?? null, $quiz_ref01_data["id"]));
+        }
 
     }
 }

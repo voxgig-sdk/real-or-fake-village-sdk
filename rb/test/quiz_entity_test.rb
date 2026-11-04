@@ -42,9 +42,18 @@ class QuizEntityTest < Minitest::Test
       end
     end
     if setup[:live]
-      Runner.live_miss(LIVE_STRICT, "Live entity test blocked: " + "the flow loads a quiz record it has no list to find")
+      { "quiz01" => "eyJ2IjoxLCJyIjoxNjQ3MjEsImYiOiJTaW50ZW5pLVNsb2JvcmVsIiwicyI6ImEifQ.IHzAvNHKqc-eLx39mvzSvw" }.each do |_live_key, _live_ex|
+        if setup[:synthetic_only] || setup[:idmap][_live_key].nil?
+          setup[:idmap][_live_key] = _live_ex
+        end
+      end
     end
     client = setup[:client]
+    if setup[:live]
+      Runner.live_existing(setup, LIVE_STRICT, "quiz", "id", setup[:idmap]["quiz01"]) do
+        [{ "id" => setup[:idmap]["quiz01"] }]
+      end
+    end
 
     # Bootstrap entity data from existing test data.
     quiz_ref01_data_raw = Vs.items(Helpers.to_map(
@@ -54,15 +63,19 @@ class QuizEntityTest < Minitest::Test
       quiz_ref01_data = Helpers.to_map(quiz_ref01_data_raw[0][1])
     end
 
+    Runner.live_pace if setup[:live]
     # LOAD
     quiz_ref01_ent = client.Quiz(nil)
     quiz_ref01_match_dt0 = {
       "id" => quiz_ref01_data["id"],
     }
+    if setup[:live]
+      quiz_ref01_match_dt0["guess"] = "a"
+    end
     quiz_ref01_data_dt0_loaded = quiz_ref01_ent.load(quiz_ref01_match_dt0, nil)
     quiz_ref01_data_dt0_load_result = Helpers.to_map(quiz_ref01_data_dt0_loaded.respond_to?(:data_get) ? quiz_ref01_data_dt0_loaded.data_get : quiz_ref01_data_dt0_loaded)
     assert !quiz_ref01_data_dt0_load_result.nil?
-    assert_equal quiz_ref01_data_dt0_load_result["id"], quiz_ref01_data["id"]
+    assert Runner.live_same_id(quiz_ref01_data_dt0_load_result["id"], quiz_ref01_data["id"]) unless setup[:live]
 
   end
 end

@@ -2,18 +2,27 @@
   "existing": {
     "fake": {
       "FAKE00": {
-        "data": {},
-        "meta": {},
+        "exists": true,
+        "name": "s33",
+        "permalink": "s34",
+        "seed": "s35",
+        "sign": "s36",
         "id": "FAKE00"
       },
       "FAKE01": {
-        "data": {},
-        "meta": {},
+        "exists": true,
+        "name": "s65",
+        "permalink": "s66",
+        "seed": "s67",
+        "sign": "s68",
         "id": "FAKE01"
       },
       "FAKE02": {
-        "data": {},
-        "meta": {},
+        "exists": true,
+        "name": "s97",
+        "permalink": "s98",
+        "seed": "s99",
+        "sign": "s9a",
         "id": "FAKE02"
       }
     }
@@ -21,8 +30,11 @@
   "new": {
     "fake": {
       "fake_ref01": {
-        "data": {},
-        "meta": {}
+        "exists": true,
+        "name": "sc9",
+        "permalink": "sca",
+        "seed": "scb",
+        "sign": "scc"
       }
     }
   },

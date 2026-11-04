@@ -12,15 +12,15 @@ var NewTestFeatureFunc func() Feature
 
 var NewTimeoutFeatureFunc func() Feature
 
-var NewCountyEntityFunc func(client *RealOrFakeVillageSDK, entopts map[string]any) RealOrFakeVillageEntity
+var NewCountyEntityFunc func(client *RealOrFakeVillageSDK, entopts map[string]any) RealOrFakeVillageEntityBase
 
-var NewFakeEntityFunc func(client *RealOrFakeVillageSDK, entopts map[string]any) RealOrFakeVillageEntity
+var NewFakeEntityFunc func(client *RealOrFakeVillageSDK, entopts map[string]any) RealOrFakeVillageEntityBase
 
-var NewQuizEntityFunc func(client *RealOrFakeVillageSDK, entopts map[string]any) RealOrFakeVillageEntity
+var NewQuizEntityFunc func(client *RealOrFakeVillageSDK, entopts map[string]any) RealOrFakeVillageEntityBase
 
-var NewRandomEntityFunc func(client *RealOrFakeVillageSDK, entopts map[string]any) RealOrFakeVillageEntity
+var NewRandomEntityFunc func(client *RealOrFakeVillageSDK, entopts map[string]any) RealOrFakeVillageEntityBase
 
-var NewSateEntityFunc func(client *RealOrFakeVillageSDK, entopts map[string]any) RealOrFakeVillageEntity
+var NewSateEntityFunc func(client *RealOrFakeVillageSDK, entopts map[string]any) RealOrFakeVillageEntityBase
 
-var NewSearchEntityFunc func(client *RealOrFakeVillageSDK, entopts map[string]any) RealOrFakeVillageEntity
+var NewSearchEntityFunc func(client *RealOrFakeVillageSDK, entopts map[string]any) RealOrFakeVillageEntityBase
 

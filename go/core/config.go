@@ -175,17 +175,39 @@ func MakeConfig() map[string]any {
 			"fake": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"name": "data",
-						"title": "Data",
-						"type": "`$OBJECT`",
+						"name": "exists",
+						"title": "Exists",
+						"type": "`$BOOLEAN`",
 						"req": true,
-						"short": "A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register).",
+						"short": "Always false.",
 					},
 					map[string]any{
-						"name": "meta",
-						"title": "Meta",
-						"type": "`$OBJECT`",
+						"name": "name",
+						"title": "Name",
+						"type": "`$STRING`",
 						"req": true,
+						"short": "A made-up village name that is nowhere in the register.",
+					},
+					map[string]any{
+						"name": "permalink",
+						"title": "Permalink",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "Link that reproduces this name.",
+					},
+					map[string]any{
+						"name": "seed",
+						"title": "Seed",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "The seed; the same seed always gives the same name.",
+					},
+					map[string]any{
+						"name": "sign",
+						"title": "Sign",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "Link to its entry sign (SVG image).",
 					},
 				},
 				"name": "fake",
@@ -213,7 +235,7 @@ func MakeConfig() map[string]any {
 								"rename": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"args": map[string]any{
 									"query": []any{
@@ -223,6 +245,7 @@ func MakeConfig() map[string]any {
 											"type": "`$STRING`",
 											"kind": "query",
 											"example": "mamaliga",
+											"field": true,
 										},
 									},
 								},

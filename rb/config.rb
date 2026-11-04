@@ -183,17 +183,39 @@ module RealOrFakeVillageConfig
         "fake" => {
           "fields" => [
             {
-              "name" => "data",
-              "title" => "Data",
-              "type" => "`$OBJECT`",
+              "name" => "exists",
+              "title" => "Exists",
+              "type" => "`$BOOLEAN`",
               "req" => true,
-              "short" => "A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register).",
+              "short" => "Always false.",
             },
             {
-              "name" => "meta",
-              "title" => "Meta",
-              "type" => "`$OBJECT`",
+              "name" => "name",
+              "title" => "Name",
+              "type" => "`$STRING`",
               "req" => true,
+              "short" => "A made-up village name that is nowhere in the register.",
+            },
+            {
+              "name" => "permalink",
+              "title" => "Permalink",
+              "type" => "`$STRING`",
+              "req" => true,
+              "short" => "Link that reproduces this name.",
+            },
+            {
+              "name" => "seed",
+              "title" => "Seed",
+              "type" => "`$STRING`",
+              "req" => true,
+              "short" => "The seed; the same seed always gives the same name.",
+            },
+            {
+              "name" => "sign",
+              "title" => "Sign",
+              "type" => "`$STRING`",
+              "req" => true,
+              "short" => "Link to its entry sign (SVG image).",
             },
           ],
           "name" => "fake",
@@ -221,7 +243,7 @@ module RealOrFakeVillageConfig
                   "rename" => {},
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.data`",
                   },
                   "args" => {
                     "query" => [
@@ -231,6 +253,7 @@ module RealOrFakeVillageConfig
                         "type" => "`$STRING`",
                         "kind" => "query",
                         "example" => "mamaliga",
+                        "field" => true,
                       },
                     ],
                   },

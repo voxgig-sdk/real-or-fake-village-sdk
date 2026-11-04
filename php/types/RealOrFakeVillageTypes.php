@@ -35,8 +35,11 @@ class CountyListMatch
 /** Fake entity data model. */
 class Fake
 {
-    public array $data;
-    public array $meta;
+    public bool $exists;
+    public string $name;
+    public string $permalink;
+    public string $seed;
+    public string $sign;
 }
 
 /** Request payload for Fake#load. */

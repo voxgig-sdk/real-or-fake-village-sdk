@@ -13,8 +13,11 @@ export interface CountyListMatch {
     villages?: number;
 }
 export interface Fake {
-    data: Record<string, any>;
-    meta: Record<string, any>;
+    exists: boolean;
+    name: string;
+    permalink: string;
+    seed: string;
+    sign: string;
 }
 export interface FakeLoadMatch {
     seed?: string;

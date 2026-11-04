@@ -60,6 +60,8 @@ class TestFakeEntity:
         if len(fake_ref01_data_raw) > 0:
             fake_ref01_data = helpers.to_map(fake_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         fake_ref01_ent = client.Fake(None)
         fake_ref01_match_dt0 = {}

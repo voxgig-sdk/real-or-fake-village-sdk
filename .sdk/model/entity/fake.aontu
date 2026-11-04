@@ -5,18 +5,40 @@ main: kit: entity: fake: {
   alias: field: {}
 
   fields: {
-    data: {
-      h: "Data"
-      n: "data"
+    exists: {
+      h: "Exists"
+      n: "exists"
       r: true
-      sh: "A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register)."
-      t: "`$OBJECT`"
+      sh: "Always false."
+      t: "`$BOOLEAN`"
     }
-    meta: {
-      h: "Meta"
-      n: "meta"
+    name: {
+      h: "Name"
+      n: "name"
       r: true
-      t: "`$OBJECT`"
+      sh: "A made-up village name that is nowhere in the register."
+      t: "`$STRING`"
+    }
+    permalink: {
+      h: "Permalink"
+      n: "permalink"
+      r: true
+      sh: "Link that reproduces this name."
+      t: "`$STRING`"
+    }
+    seed: {
+      h: "Seed"
+      n: "seed"
+      r: true
+      sh: "The seed; the same seed always gives the same name."
+      t: "`$STRING`"
+    }
+    sign: {
+      h: "Sign"
+      n: "sign"
+      r: true
+      sh: "Link to its entry sign (SVG image)."
+      t: "`$STRING`"
     }
   }
 
@@ -59,7 +81,7 @@ main: kit: entity: fake: {
           ]
           t: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]

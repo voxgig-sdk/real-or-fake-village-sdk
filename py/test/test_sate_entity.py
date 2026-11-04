@@ -60,6 +60,8 @@ class TestSateEntity:
         if len(sate_ref01_data_raw) > 0:
             sate_ref01_data = helpers.to_map(sate_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         sate_ref01_ent = client.Sate(None)
         sate_ref01_match_dt0 = {}

@@ -51,6 +51,7 @@ main: kit: entity: quiz: {
       h: "Id"
       n: "id"
       r: false
+      syn: true
       t: "`$STRING`"
     }
     permalink: {

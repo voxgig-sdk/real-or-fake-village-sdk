@@ -75,6 +75,9 @@ func TestFakeEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = fakeRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LOAD
 		fakeRef01Ent := client.Fake(nil)
 		fakeRef01MatchDt0 := map[string]any{}

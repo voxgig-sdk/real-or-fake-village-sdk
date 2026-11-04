@@ -24,6 +24,7 @@
         "repr": "auto"
       },
       "contributor": {},
+      "copies": "merge",
       "doc": {
         "active": true,
         "assets": {
@@ -187,20 +188,45 @@
             "field": {}
           },
           "fields": {
-            "data": {
+            "exists": {
               "a": true,
-              "h": "Data",
-              "n": "data",
+              "h": "Exists",
+              "n": "exists",
               "r": true,
-              "sh": "A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register).",
-              "t": "`$OBJECT`"
+              "sh": "Always false.",
+              "t": "`$BOOLEAN`"
             },
-            "meta": {
+            "name": {
               "a": true,
-              "h": "Meta",
-              "n": "meta",
+              "h": "Name",
+              "n": "name",
               "r": true,
-              "t": "`$OBJECT`"
+              "sh": "A made-up village name that is nowhere in the register.",
+              "t": "`$STRING`"
+            },
+            "permalink": {
+              "a": true,
+              "h": "Permalink",
+              "n": "permalink",
+              "r": true,
+              "sh": "Link that reproduces this name.",
+              "t": "`$STRING`"
+            },
+            "seed": {
+              "a": true,
+              "h": "Seed",
+              "n": "seed",
+              "r": true,
+              "sh": "The seed; the same seed always gives the same name.",
+              "t": "`$STRING`"
+            },
+            "sign": {
+              "a": true,
+              "h": "Sign",
+              "n": "sign",
+              "r": true,
+              "sh": "Link to its entry sign (SVG image).",
+              "t": "`$STRING`"
             }
           },
           "name": "fake",
@@ -248,7 +274,7 @@
                   ],
                   "t": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -317,6 +343,7 @@
               "h": "Id",
               "n": "id",
               "r": false,
+              "syn": true,
               "t": "`$STRING`"
             },
             "permalink": {
@@ -1511,6 +1538,9 @@
             }
           ]
         }
+      },
+      "http": {
+        "useragent": ""
       },
       "info": {
         "auth": false,

@@ -33,8 +33,11 @@ class CountyListMatch(TypedDict, total=False):
 
 
 class Fake(TypedDict):
-    data: dict
-    meta: dict
+    exists: bool
+    name: str
+    permalink: str
+    seed: str
+    sign: str
 
 
 class FakeLoadMatch(TypedDict, total=False):

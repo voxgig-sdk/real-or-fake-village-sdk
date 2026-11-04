@@ -117,6 +117,18 @@ local result, err = client:Random():load()
 -- result is the entity; data_get() reads its mock record; err is set on failure
 ```
 
+### Verify the server over HTTPS
+
+An `https://` request goes through LuaSocket and LuaSec, and the SDK checks
+the server itself before any of the request is sent: its certificate against
+the system's trust store, and its name against the host (an address against
+the certificate's addresses). Nothing turns that off. `SSL_CERT_FILE` or
+`SSL_CERT_DIR` names the trust store, as for OpenSSL; with neither set and no
+system store found, an `https://` request fails rather than going unverified.
+`REAL_OR_FAKE_VILLAGE_CA_BUNDLE` names a PEM file of roots added to the store,
+for a local service with its own certificate authority or a self-signed
+certificate. A different policy is a custom fetch function, described next.
+
 ### Use a custom fetch function
 
 Replace the HTTP transport with your own function:
@@ -253,8 +265,11 @@ API path: `/sate/counties`
 
 | Field | Description |
 | --- | --- |
-| `data` | A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register). |
-| `meta` |  |
+| `exists` | Always false. |
+| `name` | A made-up village name that is nowhere in the register. |
+| `permalink` | Link that reproduces this name. |
+| `seed` | The seed; the same seed always gives the same name. |
+| `sign` | Link to its entry sign (SVG image). |
 
 Operations: Load.
 
@@ -384,8 +399,11 @@ Create an instance: `local fake = client:Fake(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `table` | A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register). |
-| `meta` | `table` |  |
+| `exists` | `boolean` | Always false. |
+| `name` | `string` | A made-up village name that is nowhere in the register. |
+| `permalink` | `string` | Link that reproduces this name. |
+| `seed` | `string` | The seed; the same seed always gives the same name. |
+| `sign` | `string` | Link to its entry sign (SVG image). |
 
 #### Example: Load
 

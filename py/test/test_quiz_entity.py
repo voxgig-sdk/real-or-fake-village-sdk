@@ -52,8 +52,13 @@ class TestQuizEntity:
                 pytest.skip(_reason or "skipped via sdk-test-control.json")
                 return
         if setup["live"]:
-            runner.live_miss(LIVE_STRICT, "Live entity test blocked: " + "the flow loads a quiz record it has no list to find")
+            for _live_key, _live_ex in {"quiz01": "eyJ2IjoxLCJyIjoxNjQ3MjEsImYiOiJTaW50ZW5pLVNsb2JvcmVsIiwicyI6ImEifQ.IHzAvNHKqc-eLx39mvzSvw"}.items():
+                if setup.get("synthetic_only") or setup["idmap"].get(_live_key) is None:
+                    setup["idmap"][_live_key] = _live_ex
         client = setup["client"]
+        if setup["live"]:
+            runner.live_existing(setup, LIVE_STRICT, "quiz",
+                                 lambda: [{"id": setup["idmap"].get("quiz01")}], "id", setup["idmap"].get("quiz01"))
 
         # Bootstrap entity data from existing test data.
         quiz_ref01_data_raw = vs.items(helpers.to_map(
@@ -62,15 +67,20 @@ class TestQuizEntity:
         if len(quiz_ref01_data_raw) > 0:
             quiz_ref01_data = helpers.to_map(quiz_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         quiz_ref01_ent = client.Quiz(None)
         quiz_ref01_match_dt0 = {
             "id": quiz_ref01_data["id"],
         }
+        if setup["live"]:
+            quiz_ref01_match_dt0["guess"] = "a"
         quiz_ref01_data_dt0_loaded = quiz_ref01_ent.load(quiz_ref01_match_dt0, None)
         quiz_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(quiz_ref01_data_dt0_loaded))
         assert quiz_ref01_data_dt0_load_result is not None
-        assert quiz_ref01_data_dt0_load_result["id"] == quiz_ref01_data["id"]
+        if not setup["live"]:
+            assert runner.live_same_id(quiz_ref01_data_dt0_load_result.get("id"), quiz_ref01_data["id"])
 
 
 

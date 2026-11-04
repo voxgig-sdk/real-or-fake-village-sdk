@@ -164,8 +164,11 @@ fake = client.Fake()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `dict` | Yes | A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register). |
-| `meta` | `dict` | Yes |  |
+| `exists` | `bool` | Yes | Always false. |
+| `name` | `str` | Yes | A made-up village name that is nowhere in the register. |
+| `permalink` | `str` | Yes | Link that reproduces this name. |
+| `seed` | `str` | Yes | The seed; the same seed always gives the same name. |
+| `sign` | `str` | Yes | Link to its entry sign (SVG image). |
 
 ### Operations
 

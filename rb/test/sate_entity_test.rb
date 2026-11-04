@@ -51,6 +51,7 @@ class SateEntityTest < Minitest::Test
       sate_ref01_data = Helpers.to_map(sate_ref01_data_raw[0][1])
     end
 
+    Runner.live_pace if setup[:live]
     # LOAD
     sate_ref01_ent = client.Sate(nil)
     sate_ref01_match_dt0 = {}

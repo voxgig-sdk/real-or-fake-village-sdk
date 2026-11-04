@@ -212,9 +212,15 @@ func TestSearchEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = searchRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LIST
 		searchRef01Ent := client.Search(nil)
 		searchRef01Match := map[string]any{}
+		if setup.live {
+			searchRef01Match["q"] = "fundu"
+		}
 
 		searchRef01ListResult, err := searchRef01Ent.List(searchRef01Match, nil)
 		if err != nil {

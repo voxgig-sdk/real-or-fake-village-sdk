@@ -13,7 +13,11 @@ type Context = core.Context
 type Utility = core.Utility
 type Feature = core.Feature
 type Entity = core.Entity
-type RealOrFakeVillageEntity = core.RealOrFakeVillageEntity
+type RealOrFakeVillageEntityBase = core.RealOrFakeVillageEntityBase
+
+// Deprecated: use RealOrFakeVillageEntityBase.
+type RealOrFakeVillageEntity = core.RealOrFakeVillageEntityBase
+
 type StreamItem = core.StreamItem
 type FetcherFunc = core.FetcherFunc
 type Spec = core.Spec
@@ -42,22 +46,22 @@ func init() {
 	core.NewTimeoutFeatureFunc = func() core.Feature {
 		return feature.NewTimeoutFeature()
 	}
-	core.NewCountyEntityFunc = func(client *core.RealOrFakeVillageSDK, entopts map[string]any) core.RealOrFakeVillageEntity {
+	core.NewCountyEntityFunc = func(client *core.RealOrFakeVillageSDK, entopts map[string]any) core.RealOrFakeVillageEntityBase {
 		return entity.NewCountyEntity(client, entopts)
 	}
-	core.NewFakeEntityFunc = func(client *core.RealOrFakeVillageSDK, entopts map[string]any) core.RealOrFakeVillageEntity {
+	core.NewFakeEntityFunc = func(client *core.RealOrFakeVillageSDK, entopts map[string]any) core.RealOrFakeVillageEntityBase {
 		return entity.NewFakeEntity(client, entopts)
 	}
-	core.NewQuizEntityFunc = func(client *core.RealOrFakeVillageSDK, entopts map[string]any) core.RealOrFakeVillageEntity {
+	core.NewQuizEntityFunc = func(client *core.RealOrFakeVillageSDK, entopts map[string]any) core.RealOrFakeVillageEntityBase {
 		return entity.NewQuizEntity(client, entopts)
 	}
-	core.NewRandomEntityFunc = func(client *core.RealOrFakeVillageSDK, entopts map[string]any) core.RealOrFakeVillageEntity {
+	core.NewRandomEntityFunc = func(client *core.RealOrFakeVillageSDK, entopts map[string]any) core.RealOrFakeVillageEntityBase {
 		return entity.NewRandomEntity(client, entopts)
 	}
-	core.NewSateEntityFunc = func(client *core.RealOrFakeVillageSDK, entopts map[string]any) core.RealOrFakeVillageEntity {
+	core.NewSateEntityFunc = func(client *core.RealOrFakeVillageSDK, entopts map[string]any) core.RealOrFakeVillageEntityBase {
 		return entity.NewSateEntity(client, entopts)
 	}
-	core.NewSearchEntityFunc = func(client *core.RealOrFakeVillageSDK, entopts map[string]any) core.RealOrFakeVillageEntity {
+	core.NewSearchEntityFunc = func(client *core.RealOrFakeVillageSDK, entopts map[string]any) core.RealOrFakeVillageEntityBase {
 		return entity.NewSearchEntity(client, entopts)
 	}
 }

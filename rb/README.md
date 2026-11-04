@@ -268,8 +268,11 @@ API path: `/sate/counties`
 
 | Field | Description |
 | --- | --- |
-| `data` | A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register). |
-| `meta` |  |
+| `exists` | Always false. |
+| `name` | A made-up village name that is nowhere in the register. |
+| `permalink` | Link that reproduces this name. |
+| `seed` | The seed; the same seed always gives the same name. |
+| `sign` | Link to its entry sign (SVG image). |
 
 Operations: Load.
 
@@ -401,8 +404,11 @@ Create an instance: `fake = client.Fake`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `Hash` | A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register). |
-| `meta` | `Hash` |  |
+| `exists` | `Boolean` | Always false. |
+| `name` | `String` | A made-up village name that is nowhere in the register. |
+| `permalink` | `String` | Link that reproduces this name. |
+| `seed` | `String` | The seed; the same seed always gives the same name. |
+| `sign` | `String` | Link to its entry sign (SVG image). |
 
 #### Example: Load
 

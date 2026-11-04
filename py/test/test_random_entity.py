@@ -60,6 +60,8 @@ class TestRandomEntity:
         if len(random_ref01_data_raw) > 0:
             random_ref01_data = helpers.to_map(random_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         random_ref01_ent = client.Random(None)
         random_ref01_match_dt0 = {}

@@ -54,6 +54,9 @@ describe("SateEntity", function()
       sate_ref01_data = helpers.to_map(sate_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LOAD
     local sate_ref01_ent = client:Sate(nil)
     local sate_ref01_match_dt0 = {}

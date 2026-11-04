@@ -47,27 +47,27 @@ client := sdk.TestSDK(testopts, sdkopts)
 
 ### Instance Methods
 
-#### `County(data map[string]any) RealOrFakeVillageEntity`
+#### `County(data map[string]any) RealOrFakeVillageEntityBase`
 
 Create a new `County` entity instance. Pass `nil` for no initial data.
 
-#### `Fake(data map[string]any) RealOrFakeVillageEntity`
+#### `Fake(data map[string]any) RealOrFakeVillageEntityBase`
 
 Create a new `Fake` entity instance. Pass `nil` for no initial data.
 
-#### `Quiz(data map[string]any) RealOrFakeVillageEntity`
+#### `Quiz(data map[string]any) RealOrFakeVillageEntityBase`
 
 Create a new `Quiz` entity instance. Pass `nil` for no initial data.
 
-#### `Random(data map[string]any) RealOrFakeVillageEntity`
+#### `Random(data map[string]any) RealOrFakeVillageEntityBase`
 
 Create a new `Random` entity instance. Pass `nil` for no initial data.
 
-#### `Sate(data map[string]any) RealOrFakeVillageEntity`
+#### `Sate(data map[string]any) RealOrFakeVillageEntityBase`
 
 Create a new `Sate` entity instance. Pass `nil` for no initial data.
 
-#### `Search(data map[string]any) RealOrFakeVillageEntity`
+#### `Search(data map[string]any) RealOrFakeVillageEntityBase`
 
 Create a new `Search` entity instance. Pass `nil` for no initial data.
 
@@ -183,8 +183,11 @@ fmt.Println(fake.GetName()) // "fake"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `map[string]any` | Yes | A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register). |
-| `meta` | `map[string]any` | Yes |  |
+| `exists` | `bool` | Yes | Always false. |
+| `name` | `string` | Yes | A made-up village name that is nowhere in the register. |
+| `permalink` | `string` | Yes | Link that reproduces this name. |
+| `seed` | `string` | Yes | The seed; the same seed always gives the same name. |
+| `sign` | `string` | Yes | Link to its entry sign (SVG image). |
 
 ### Operations
 

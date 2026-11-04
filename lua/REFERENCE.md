@@ -166,8 +166,11 @@ local fake = client:Fake(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `table` | Yes | A machine-made village name (order-3 character Markov chain trained on the real names, filtered against the register). |
-| `meta` | `table` | Yes |  |
+| `exists` | `boolean` | Yes | Always false. |
+| `name` | `string` | Yes | A made-up village name that is nowhere in the register. |
+| `permalink` | `string` | Yes | Link that reproduces this name. |
+| `seed` | `string` | Yes | The seed; the same seed always gives the same name. |
+| `sign` | `string` | Yes | Link to its entry sign (SVG image). |
 
 ### Operations
 

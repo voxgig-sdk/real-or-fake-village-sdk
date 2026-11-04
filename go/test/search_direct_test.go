@@ -33,13 +33,22 @@ func TestSearchDirect(t *testing.T) {
 			t.Skip(_reason)
 			return
 		}
+		if setup.live {
+			livePace()
+		}
 		client := setup.client
 
+		params := map[string]any{}
+		query := map[string]any{}
+		if setup.live {
+			query["q"] = "fundu"
+		}
 
 		result, err := client.Direct(map[string]any{
 			"path":   "sate/search",
 			"method": "GET",
-			"params": map[string]any{},
+			"params": params,
+			"query":  query,
 		})
 		if setup.live {
 			if err != nil {

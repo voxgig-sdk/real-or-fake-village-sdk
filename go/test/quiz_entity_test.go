@@ -63,10 +63,20 @@ func TestQuizEntity(t *testing.T) {
 			}
 		}
 		if setup.live {
-			liveMiss(t, quizEntityLiveStrict, "Live entity test blocked: %s", "the flow loads a quiz record it has no list to find")
+			for _liveKey, _liveEx := range map[string]any{"quiz01": "eyJ2IjoxLCJyIjoxNjQ3MjEsImYiOiJTaW50ZW5pLVNsb2JvcmVsIiwicyI6ImEifQ.IHzAvNHKqc-eLx39mvzSvw"} {
+				if setup.syntheticOnly || setup.idmap[_liveKey] == nil {
+					setup.idmap[_liveKey] = _liveEx
+				}
+			}
 		}
 		client := setup.client
 		_ = client
+		if setup.live {
+			liveExisting(t, quizEntityLiveStrict, setup.data, "quiz", "id", setup.idmap["quiz01"],
+				func() (any, error) {
+					return []any{map[string]any{"id": setup.idmap["quiz01"]}}, nil
+				})
+		}
 
 		// Bootstrap entity data from existing test data (no create step in flow).
 		quizRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.quiz")))
@@ -78,10 +88,16 @@ func TestQuizEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = quizRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LOAD
 		quizRef01Ent := client.Quiz(nil)
 		quizRef01MatchDt0 := map[string]any{
 			"id": quizRef01Data["id"],
+		}
+		if setup.live {
+			quizRef01MatchDt0["guess"] = "a"
 		}
 		quizRef01DataDt0Loaded, err := quizRef01Ent.Load(quizRef01MatchDt0, nil)
 		if err != nil {
@@ -91,7 +107,7 @@ func TestQuizEntity(t *testing.T) {
 		if quizRef01DataDt0LoadResult == nil {
 			t.Fatal("expected load result to be a map")
 		}
-		if quizRef01DataDt0LoadResult["id"] != quizRef01Data["id"] {
+		if !setup.live && !liveSameId(quizRef01DataDt0LoadResult["id"], quizRef01Data["id"]) {
 			t.Fatal("expected load result id to match")
 		}
 

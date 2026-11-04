@@ -1,6 +1,7 @@
 # Quiz direct test
 
 import json
+import os
 import pytest
 
 from realorfakevillage_sdk.utility.voxgig_struct import voxgig_struct as vs
@@ -29,6 +30,8 @@ class TestQuizDirect:
         if _skip:
             pytest.skip(_reason or "skipped via sdk-test-control.json")
             return
+        if setup["live"]:
+            runner.live_pace()
         client = setup["client"]
 
         params = {}
@@ -82,6 +85,9 @@ def _quiz_direct_setup(mockres):
         })
         client = RealOrFakeVillageSDK(merged_opts)
         idmap = env.get("REAL_OR_FAKE_VILLAGE_TEST_QUIZ_ENTID")
+        # A path parameter's example stands in for an id *_ENTID does not give.
+        idmap = {"quiz01": "eyJ2IjoxLCJyIjoxNjQ3MjEsImYiOiJTaW50ZW5pLVNsb2JvcmVsIiwicyI6ImEifQ.IHzAvNHKqc-eLx39mvzSvw",
+                 **(idmap if isinstance(idmap, dict) else {})}
         return {
             "client": client,
             "calls": calls,

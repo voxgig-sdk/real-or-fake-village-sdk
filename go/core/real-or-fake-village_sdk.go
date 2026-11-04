@@ -192,6 +192,20 @@ func (sdk *RealOrFakeVillageSDK) Prepare(fetchargs map[string]any) (map[string]a
 		}
 	}
 
+	// A raw request has no point to declare its response type, so it asks
+	// for the JSON it reads: an API that negotiates on Accept otherwise
+	// answers in its own default format. A caller's own accept wins.
+	hasAccept := false
+	for k := range ctx.Spec.Headers {
+		if strings.ToLower(k) == "accept" {
+			hasAccept = true
+			break
+		}
+	}
+	if !hasAccept {
+		ctx.Spec.Headers["accept"] = "application/json"
+	}
+
 	_, err := utility.PrepareAuth(ctx)
 	if err != nil {
 		return nil, err
@@ -375,7 +389,7 @@ func (sdk *RealOrFakeVillageSDK) Graphql(
 // County returns a County entity bound to this client.
 // Idiomatic usage: client.County(nil).List(nil, nil) or
 // client.County(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RealOrFakeVillageSDK) County(data map[string]any) RealOrFakeVillageEntity {
+func (sdk *RealOrFakeVillageSDK) County(data map[string]any) RealOrFakeVillageEntityBase {
 	return NewCountyEntityFunc(sdk, data)
 }
 
@@ -383,7 +397,7 @@ func (sdk *RealOrFakeVillageSDK) County(data map[string]any) RealOrFakeVillageEn
 // Fake returns a Fake entity bound to this client.
 // Idiomatic usage: client.Fake(nil).List(nil, nil) or
 // client.Fake(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RealOrFakeVillageSDK) Fake(data map[string]any) RealOrFakeVillageEntity {
+func (sdk *RealOrFakeVillageSDK) Fake(data map[string]any) RealOrFakeVillageEntityBase {
 	return NewFakeEntityFunc(sdk, data)
 }
 
@@ -391,7 +405,7 @@ func (sdk *RealOrFakeVillageSDK) Fake(data map[string]any) RealOrFakeVillageEnti
 // Quiz returns a Quiz entity bound to this client.
 // Idiomatic usage: client.Quiz(nil).List(nil, nil) or
 // client.Quiz(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RealOrFakeVillageSDK) Quiz(data map[string]any) RealOrFakeVillageEntity {
+func (sdk *RealOrFakeVillageSDK) Quiz(data map[string]any) RealOrFakeVillageEntityBase {
 	return NewQuizEntityFunc(sdk, data)
 }
 
@@ -399,7 +413,7 @@ func (sdk *RealOrFakeVillageSDK) Quiz(data map[string]any) RealOrFakeVillageEnti
 // Random returns a Random entity bound to this client.
 // Idiomatic usage: client.Random(nil).List(nil, nil) or
 // client.Random(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RealOrFakeVillageSDK) Random(data map[string]any) RealOrFakeVillageEntity {
+func (sdk *RealOrFakeVillageSDK) Random(data map[string]any) RealOrFakeVillageEntityBase {
 	return NewRandomEntityFunc(sdk, data)
 }
 
@@ -407,7 +421,7 @@ func (sdk *RealOrFakeVillageSDK) Random(data map[string]any) RealOrFakeVillageEn
 // Sate returns a Sate entity bound to this client.
 // Idiomatic usage: client.Sate(nil).List(nil, nil) or
 // client.Sate(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RealOrFakeVillageSDK) Sate(data map[string]any) RealOrFakeVillageEntity {
+func (sdk *RealOrFakeVillageSDK) Sate(data map[string]any) RealOrFakeVillageEntityBase {
 	return NewSateEntityFunc(sdk, data)
 }
 
@@ -415,7 +429,7 @@ func (sdk *RealOrFakeVillageSDK) Sate(data map[string]any) RealOrFakeVillageEnti
 // Search returns a Search entity bound to this client.
 // Idiomatic usage: client.Search(nil).List(nil, nil) or
 // client.Search(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RealOrFakeVillageSDK) Search(data map[string]any) RealOrFakeVillageEntity {
+func (sdk *RealOrFakeVillageSDK) Search(data map[string]any) RealOrFakeVillageEntityBase {
 	return NewSearchEntityFunc(sdk, data)
 }
 
